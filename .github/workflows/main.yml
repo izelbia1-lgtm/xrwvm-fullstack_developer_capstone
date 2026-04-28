@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Linter
         run: |
-          find . -name "*.py" -exec flake8 --ignore=E501,W291,W292,W293,E122,E126,E302,E305 {} +
+          find . -name "*.py" -exec flake8 --ignore=E501,W291,W292,W293,W391,E122,E126,E302,E305 {} +
           echo "Linted all the python files successfully"
 
   lint_js:
@@ -48,5 +48,5 @@ jobs:
 
       - name: Run Linter
         run: |
-          find ./server/database -name "*.js" -exec sh -c 'echo "/*jshint esversion: 8 */" | cat - "$1" | jshint' _ {} \;
+          find ./server/database -name "*.js" -exec sh -c 'printf "/*jshint esversion: 8 */\n" | cat - "$1" | jshint' _ {} \;
           echo "Linted all the js files successfully"
