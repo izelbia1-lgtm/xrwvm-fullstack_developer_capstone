@@ -3,6 +3,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const dealershipData = require("./data/dealerships.json");
+const reviewData = require("./data/reviews.json");
 
 const Dealership = require("./dealership");
 const Review = require("./review");
@@ -15,6 +17,24 @@ app.use(express.json());
 mongoose.connect("mongodb://mongo_db:27017/dealershipsDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+});
+
+mongoose.connection.once("open", async () => {
+  try {
+    const dealerCount = await Dealership.countDocuments({});
+    if (dealerCount === 0) {
+      await Dealership.insertMany(dealershipData.dealerships);
+      console.log("Seeded dealerships collection");
+    }
+
+    const reviewCount = await Review.countDocuments({});
+    if (reviewCount === 0) {
+      await Review.insertMany(reviewData.reviews);
+      console.log("Seeded reviews collection");
+    }
+  } catch (error) {
+    console.error("Error seeding MongoDB data", error);
+  }
 });
 
 app.get("/fetchReviews", async (req, res) => {
