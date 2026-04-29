@@ -1,3 +1,5 @@
 curl.exe -X GET "http://127.0.0.1:3030/fetchReviews/dealer/29"
 
+curl.exe -X GET "http://127.0.0.1:3030/fetchReviews/dealer/29"
+
 {"status":200,"reviews":[...]}
